@@ -1,8 +1,19 @@
 
 # **Crypto Trading Bot**  
+🚀 Yapay Zeka Destekli Otomatik Kripto Ticaret Botu
+Bu proje, MEXC borsası üzerinden sağlanan gerçek zamanlı verilerle çalışarak RSI (Relative Strength Index) ve MACD (Moving Average Convergence Divergence) gibi popüler teknik göstergeleri kullanır. Python tabanlı bu sistem, lojistik regresyon modeli ile geçmiş fiyat verilerini analiz ederek piyasanın yönünü tahmin eder ve bu doğrultuda otomatik alım-satım stratejileri uygular.
 
-Bu proje, **MEXC** borsasından çekilen verilerle RSI (Relative Strength Index) ve MACD (Moving Average Convergence Divergence) gibi teknik göstergeleri kullanarak **logistik regresyon modeli** eğiten ve alım-satım stratejilerini uygulayan bir Python tabanlı kripto ticaret botudur.  
+Temel Özellikler:
 
+Veri Entegrasyonu: MEXC API üzerinden anlık ve geçmiş fiyat verileri çekilir.
+Teknik Göstergeler: RSI ve MACD kullanılarak piyasanın aşırı alım/aşırı satım durumları tespit edilir.
+Makine Öğrenimi: Lojistik regresyon modeli ile veriler eğitilerek piyasa hareketleri tahmin edilir.
+Otomatik Alım-Satım: Tahmin edilen verilere göre uygun alım-satım pozisyonları açılır ve trailing stop-loss stratejisi ile risk yönetimi sağlanır.
+Güçlü Performans: Kullanıcı müdahalesine gerek kalmadan piyasa verilerini analiz ederek stratejileri gerçek zamanlı uygular.
+⚠️ Yasal Uyarı ve Sorumluluk Reddi
+Bu proje tamamen eğitim ve araştırma amaçlı geliştirilmiştir. İçerisindeki kod veya algoritmalar yatırım tavsiyesi niteliği taşımamaktadır ve herhangi bir finansal kazanç/kayıp garantisi sağlamaz.
+
+Kripto para ticareti yüksek risk içerir. Bu botu kullanarak yapacağınız işlemlerden doğacak tüm sorumluluk kullanıcıya aittir. Finansal kararlarınızı almadan önce kendi araştırmanızı yapmanızı ve bir finans uzmanına danışmanızı öneririz.
 ---
 
 ## **Özellikler**  
