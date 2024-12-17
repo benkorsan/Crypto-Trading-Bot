@@ -1,122 +1,107 @@
-Mexc Algo Trading Botu
-Bu proje, Mexc borsasında BTC/USDT gibi kripto çiftlerinde otomatik alım-satım stratejisi gerçekleştiren bir algoritmik işlem botudur. Bot, geçmiş fiyat verilerini kullanarak RSI ve MACD gibi teknik göstergeleri hesaplar, makine öğrenimi modeli ile alım-satım kararları verir ve trailing stop mekanizması ile riski yönetir.
 
-Özellikler
-Otomatik Veri Çekme: Mexc API'sinden işlem çiftleri için geçmiş fiyat verilerini toplar.
-Teknik Göstergeler:
-RSI (Relative Strength Index)
-MACD (Moving Average Convergence Divergence) hesaplamaları yapılır.
-Makine Öğrenimi:
-Logistic Regression kullanarak model eğitimi ve tahmin yapılır.
-Model doğruluğu test edilerek iyileştirilir.
-Risk Yönetimi:
-Stop Loss: Kayıpları sınırlar.
-Trailing Stop: Kârı korumak için dinamik stop loss uygular.
-Model Kaydetme ve Yükleme:
-Eğitim sonrası model ve scaler kaydedilir, sonraki çalıştırmalarda doğrudan yüklenir.
-Gerçek Zamanlı Strateji:
-1 dakikalık (1m) zaman diliminde gerçek zamanlı tahmin yapar ve karar verir.
-Gereksinimler
-Projenin çalışabilmesi için aşağıdaki bağımlılıkların yüklü olması gerekmektedir:
+# **Crypto Trading Bot**  
 
-Python >= 3.8
-Kütüphaneler:
-requests
-joblib
-numpy
-pandas
-scikit-learn
-python-dotenv
-Bağımlılıkları yüklemek için aşağıdaki komutu kullanabilirsiniz:
+Bu proje, **MEXC** borsasından çekilen verilerle RSI (Relative Strength Index) ve MACD (Moving Average Convergence Divergence) gibi teknik göstergeleri kullanarak **logistik regresyon modeli** eğiten ve alım-satım stratejilerini uygulayan bir Python tabanlı kripto ticaret botudur.  
 
-bash
-Kodu kopyala
-pip install requests joblib numpy pandas scikit-learn python-dotenv
-Kurulum
-Proje Dosyalarını İndirin:
+---
 
-bash
-Kodu kopyala
-git clone <proje-repo-linki>
-cd <proje-dizini>
-Ortam Değişkenlerini Ayarlayın:
+## **Özellikler**  
+- **MEXC API** ile geçmiş piyasa verilerini alma  
+- **RSI** ve **MACD** hesaplamaları ile özellikler oluşturma  
+- **Logistic Regression** ile model eğitimi  
+- **Trailing Stop** ve **Stop Loss** mekanizmaları ile güvenli işlem stratejileri  
+- **Model Kaydetme ve Yükleme**: Eğitimli modeli ve ölçekleyiciyi kaydeder, gerektiğinde yeniden kullanır.  
 
-.env dosyası oluşturun ve API_KEY, API_SECRET gibi gerekli değişkenleri ayarlayın.
-env
-Kodu kopyala
-API_KEY=
-API_SECRET=
+---
+
+## **Kurulum**  
+
+Proje bağımlılıklarını yüklemek için:  
+
+```bash
+pip install -r requirements.txt
+```
+
+### **Çevresel Değişkenler**  
+API anahtarlarını kullanmak için `.env` dosyası oluşturun ve aşağıdaki gibi yapılandırın:  
+
+```
+API_KEY=****************
+API_SECRET=****************
 BASE_URL=https://api.mexc.com
-Projenin Çalıştırılması:
+```
 
-bash
-Kodu kopyala
+---
+
+## **Bağımlılıklar**  
+
+- **Python 3.x**  
+- **Requests**: API ile iletişim kurmak için  
+- **scikit-learn**: Model eğitimi ve ölçeklendirme  
+- **joblib**: Modelin kaydedilip yüklenmesi  
+- **pandas**: Veri analizi  
+- **numpy**: Matematiksel işlemler  
+
+Proje bağımlılıkları `requirements.txt` dosyasına dahildir.  
+
+---
+
+## **Kod Yapısı**  
+
+- **safe_request**: API isteklerini güvenli hale getirir.  
+- **get_historical_data**: Geçmiş piyasa verilerini çeker.  
+- **prepare_features**: RSI ve MACD hesaplar ve özellik seti oluşturur.  
+- **train_model**: Logistic Regression modeli eğitir.  
+- **execute_strategy**: Alım-satım stratejilerini uygular.  
+- **save_model / load_model**: Modeli ve ölçekleyiciyi kaydeder/yükler.  
+
+---
+
+## **Kullanım**  
+
+1. Ana dosyayı çalıştırın:  
+
+```bash
 python main.py
-Kullanım
-Model Eğitimi:
-Program, geçmiş veriler ile modeli otomatik olarak eğitir.
-Eğer model daha önce eğitilmişse, kaydedilen modeli yükler.
-Alım-Satım Stratejisi:
-Bot, gerçek zamanlı fiyat verilerini kullanarak Logistic Regression modeli ile yükseliş/düşüş tahmini yapar.
-Yükseliş tahmin edildiğinde pozisyon açar ve trailing stop ile pozisyonu yönetir.
-Risk Yönetimi:
-STOP_LOSS_PERCENT: %1 zarar durumunda pozisyonu kapatır.
-TRAILING_STOP_PERCENT: %0.5 kâr durumunda stop loss'u yukarı taşır.
-Dosya Yapısı
-plaintext
-Kodu kopyala
-/
-|-- main.py                 # Ana çalışma dosyası
-|-- indicators.py           # Teknik göstergeler (RSI, MACD) hesaplama
-|-- model.pkl               # Kaydedilmiş model dosyası
-|-- scaler.pkl              # Kaydedilmiş scaler dosyası
-|-- .env                    # Ortam değişkenleri (API_KEY, API_SECRET)
-|-- requirements.txt        # Gerekli bağımlılıkların listesi
-|-- README.md               # Proje dokümantasyonu
-Fonksiyonlar
-safe_request
-Amaç: API isteklerini güvenli şekilde gönderir ve hata durumlarını yönetir.
-Parametreler:
-url: İstek URL'si
-method: HTTP yöntemi (GET/POST)
-Dönüş: JSON formatında API yanıtı.
-get_historical_data
-Amaç: Mexc borsasından geçmiş fiyat verilerini çeker.
-Parametreler:
-symbol: İşlem çifti (BTCUSDT)
-interval: Zaman dilimi (1m, 5m)
-Dönüş: Fiyat verileri.
-prepare_features
-Amaç: Model için özellikleri hazırlar (RSI, MACD farkları).
-Dönüş: Özellikler ve kapanış fiyatları.
-train_model
-Amaç: Logistic Regression modeli eğitir.
-Dönüş: Model ve scaler nesneleri.
-execute_strategy
-Amaç: Gerçek zamanlı olarak işlem stratejisini uygular.
-Parametreler:
-symbol: İşlem çifti
-interval: Zaman dilimi
-Örnek Çalıştırma
-Çalıştırdığınızda terminalde aşağıdaki gibi bir çıktı alırsınız:
+```
 
-plaintext
-Kodu kopyala
-Model doğruluğu: 87.50%
-Mevcut fiyat: 27000.5, Tahmin: Yükseliş
-Alış yapıldı: 27000.5
-Mevcut fiyat: 27050.7, Tahmin: Yükseliş
-Trailing stop devreye girdi: Pozisyon kapatıldı. Fiyat: 26980.0
-Notlar
-Güncelleme Limiti: API isteklerinin limitlerine dikkat edilmiştir. Aşırı istek durumunda 1 dakika bekler.
-Özelleştirme: STOP_LOSS_PERCENT, TRAILING_STOP_PERCENT gibi parametreler kod üzerinden değiştirilebilir.
-Lisans
-Bu proje MIT Lisansı altında lisanslanmıştır.
+2. **Sembol** ve **zaman aralığı** ayarlamalarını yapabilirsiniz:  
 
-Bu detaylı README dosyası, projenizin kullanımı, kurulumu ve çalıştırılması konusunda net bir rehber sağlayacaktır.
+```python
+symbol = "BTCUSDT"  # İşlem yapmak istediğiniz sembol  
+interval = "1m"     # Zaman aralığı (örneğin: 1m, 5m, 1h)  
+```
 
+---
 
+## **İşlem Mantığı**  
 
+- Bot, **RSI** ve **MACD** verilerini kullanarak piyasanın "yükseliş" ya da "düşüş" tahmininde bulunur.  
+- Eğer pozitif sinyal algılanırsa (**Yükseliş**):  
+   - İşlem açılır (alış yapılır).  
+   - **Trailing Stop** mekanizması ile fiyat düşüşü sınırlandırılır.  
+- Eğer fiyat belirlenen **stop loss** seviyesini geçerse:  
+   - Pozisyon kapatılır.  
 
+---
 
+## **Notlar**  
+- Proje, **MEXC** API'si üzerinden çalışmaktadır.  
+- Model ve scaler (`model.pkl` ve `scaler.pkl`) otomatik olarak kaydedilir ve bir sonraki çalıştırmada yüklenir.  
+- Eğitim verileriniz yetersizse veya eskiyse, model yeniden eğitilir.  
 
+---
+
+## **Geliştirme**  
+- Yeni teknik analiz indikatörleri ekleyebilirsiniz.  
+- Farklı machine learning algoritmaları deneyebilirsiniz.  
+- API istek optimizasyonu yapılabilir.  
+
+---
+
+## **Lisans**  
+Bu proje **MIT Lisansı** ile korunmaktadır.  
+
+---
+
+**Katkıda bulunmak isterseniz pull request açmaktan çekinmeyin! 😊**  
