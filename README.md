@@ -96,7 +96,10 @@ interval = "1m"     # Zaman aralığı (örneğin: 1m, 5m, 1h)
 - Yeni teknik analiz indikatörleri ekleyebilirsiniz.  
 - Farklı machine learning algoritmaları deneyebilirsiniz.  
 - API istek optimizasyonu yapılabilir.  
-
+---
+---
+⚠️ Yasal Uyarı
+Bu proje bir yatırım tavsiyesi değildir. Finansal işlemlerinizden doğacak kazanç veya kayıplar tamamen sizin sorumluluğunuzdadır. Lütfen finansal kararlarınızı vermeden önce kendi araştırmanızı yapın ve uzman bir danışmana başvurun.
 ---
 
 ## **Lisans**  
