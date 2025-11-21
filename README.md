@@ -1,128 +1,37 @@
+# Binance Futures AI Trading Bot  
+**Sürüm:** 1.0 | **Tarih:** 21 Kasım 2025  
 
-# **Crypto Trading Bot**  
----
-**🚀 Yapay Zeka Destekli Otomatik Kripto Ticaret Botu
-Bu proje, MEXC borsası üzerinden sağlanan gerçek zamanlı verilerle çalışarak RSI (Relative Strength Index) ve MACD (Moving Average Convergence Divergence) gibi popüler teknik göstergeleri kullanır. Python tabanlı bu sistem, lojistik regresyon modeli ile geçmiş fiyat verilerini analiz ederek piyasanın yönünü tahmin eder ve bu doğrultuda otomatik alım-satım stratejileri uygular.
+> **UYARI & SORUMLULUK REDDİ**  
+> Bu yazılım tamamen **eğitim ve araştırma amaçlı** olarak hazırlanmıştır.  
+> Gerçek hesapta kullanmanız durumunda **tüm finansal risk size aittir**.  
+> Bot, hiçbir koşulda kar garantisi vermez; piyasa koşulları, likidite, slippage, API gecikmeleri ve hatalar nedeniyle **tamamen sermaye kaybı** yaşanabilir.  
+> **Yazar, geliştirici veya dağıtıcı hiçbir şekilde maddi/manevi zarardan sorumlu tutulamaz.**  
+> Lütfen önce **testnet** veya **çok küçük miktarlar** ile deneyin.
 
-Temel Özellikler:
+## Özellikler
 
-Veri Entegrasyonu: MEXC API üzerinden anlık ve geçmiş fiyat verileri çekilir.
+| Özellik                              | Açıklama                                                                                  |
+|--------------------------------------|-------------------------------------------------------------------------------------------|
+| **Çoklu Coin Desteği**               | Aynı anda 10 popüler USDT perpetual kontrat (BTC, ETH, ADA, SOL, XRP, BNB, DOGE, DOT, LINK, AVAX) |
+| **LightGBM ile AI Tahmini**          | 15 dakikalık mum verileriyle eğitilen ikili sınıflandırma modeli (yükseliş/düşüş)          |
+| **Gerçek Zamanlı Fiyat**             | Binance `!miniTicker@arr` WebSocket ile tüm sembollerin anlık fiyat takibi                |
+| **ATR Tabanlı Dinamik Stop-Loss**    | Volatiliteye göre otomatik ayarlanan 2×ATR stop-loss                                     |
+| **Kademeli Kâr Takibi**              | %5 geriden takip eden trailing-stop (her döngüde yenilenir)                               |
+| **Pozisyon Ters Çevirme**            | Tahmin tersine döner ve mevcut pozisyon zarardaysa otomatik ters işlem + yeni SL          |
+| **Kaldıraç & Marj Yönetimi**         | 20× sabit kaldıraç, her coin için 5 USDT marj, bakiye kontrolü                            |
+| **Hassasiyet & LOT_SIZE Uyumluluğu** | Binance `exchangeInfo` üzerinden tickSize/stepSize/minQty kontrolü                        |
+| **API Rate-Limit Koruması**          | Ağırlık (weight) takibi + otomatik bekleme                                               |
+| **Detaylı Loglama**                  | Konsol + `trading_bot.log` dosyasına tam zaman damgalı kayıtlar                           |
+| **Otomatik Kapanış**                 | Bot başlangıcında tüm açık pozisyonları kapatır (temiz başlangıç)                         |
 
-Teknik Göstergeler: RSI ve MACD kullanılarak piyasanın aşırı alım/aşırı satım durumları tespit edilir.
+## Gereksinimler
 
-Makine Öğrenimi: Lojistik regresyon modeli ile veriler eğitilerek piyasa hareketleri tahmin edilir.
-
-Otomatik Alım-Satım: Tahmin edilen verilere göre uygun alım-satım pozisyonları açılır ve trailing stop-loss stratejisi ile risk yönetimi sağlanır.
-
-Güçlü Performans: Kullanıcı müdahalesine gerek kalmadan piyasa verilerini analiz ederek stratejileri gerçek zamanlı uygular.**
----
----
-⚠️ Yasal Uyarı ve Sorumluluk Reddi
-Bu proje tamamen eğitim ve araştırma amaçlı geliştirilmiştir. İçerisindeki kod veya algoritmalar yatırım tavsiyesi niteliği taşımamaktadır ve herhangi bir finansal kazanç/kayıp garantisi sağlamaz.
----
-Kripto para ticareti yüksek risk içerir. Bu botu kullanarak yapacağınız işlemlerden doğacak tüm sorumluluk kullanıcıya aittir. Finansal kararlarınızı almadan önce kendi araştırmanızı yapmanızı ve bir finans uzmanına danışmanızı öneririz.
----
-
-## **Özellikler**  
-- **MEXC API** ile geçmiş piyasa verilerini alma  
-- **RSI** ve **MACD** hesaplamaları ile özellikler oluşturma  
-- **Logistic Regression** ile model eğitimi  
-- **Trailing Stop** ve **Stop Loss** mekanizmaları ile güvenli işlem stratejileri  
-- **Model Kaydetme ve Yükleme**: Eğitimli modeli ve ölçekleyiciyi kaydeder, gerektiğinde yeniden kullanır.  
-
----
-
-## **Kurulum**  
-
-Proje bağımlılıklarını yüklemek için:  
-
-```bash
-pip install -r requirements.txt
-```
-
-### **Çevresel Değişkenler**  
-API anahtarlarını kullanmak için `.env` dosyası oluşturun ve aşağıdaki gibi yapılandırın:  
-
-```
-API_KEY=****************
-API_SECRET=****************
-BASE_URL=https://api.mexc.com
-```
-
----
-
-## **Bağımlılıklar**  
-
-- **Python 3.x**  
-- **Requests**: API ile iletişim kurmak için  
-- **scikit-learn**: Model eğitimi ve ölçeklendirme  
-- **joblib**: Modelin kaydedilip yüklenmesi  
-- **pandas**: Veri analizi  
-- **numpy**: Matematiksel işlemler  
-
-Proje bağımlılıkları `requirements.txt` dosyasına dahildir.  
-
----
-
-## **Kod Yapısı**  
-
-- **safe_request**: API isteklerini güvenli hale getirir.  
-- **get_historical_data**: Geçmiş piyasa verilerini çeker.  
-- **prepare_features**: RSI ve MACD hesaplar ve özellik seti oluşturur.  
-- **train_model**: Logistic Regression modeli eğitir.  
-- **execute_strategy**: Alım-satım stratejilerini uygular.  
-- **save_model / load_model**: Modeli ve ölçekleyiciyi kaydeder/yükler.  
-
----
-
-## **Kullanım**  
-
-1. Ana dosyayı çalıştırın:  
-
-```bash
-python main.py
-```
-
-2. **Sembol** ve **zaman aralığı** ayarlamalarını yapabilirsiniz:  
-
-```python
-symbol = "BTCUSDT"  # İşlem yapmak istediğiniz sembol  
-interval = "1m"     # Zaman aralığı (örneğin: 1m, 5m, 1h)  
-```
-
----
-
-## **İşlem Mantığı**  
-
-- Bot, **RSI** ve **MACD** verilerini kullanarak piyasanın "yükseliş" ya da "düşüş" tahmininde bulunur.  
-- Eğer pozitif sinyal algılanırsa (**Yükseliş**):  
-   - İşlem açılır (alış yapılır).  
-   - **Trailing Stop** mekanizması ile fiyat düşüşü sınırlandırılır.  
-- Eğer fiyat belirlenen **stop loss** seviyesini geçerse:  
-   - Pozisyon kapatılır.  
-
----
-
-## **Notlar**  
-- Proje, **MEXC** API'si üzerinden çalışmaktadır.  
-- Model ve scaler (`model.pkl` ve `scaler.pkl`) otomatik olarak kaydedilir ve bir sonraki çalıştırmada yüklenir.  
-- Eğitim verileriniz yetersizse veya eskiyse, model yeniden eğitilir.  
-
----
-
-## **Geliştirme**  
-- Yeni teknik analiz indikatörleri ekleyebilirsiniz.  
-- Farklı machine learning algoritmaları deneyebilirsiniz.  
-- API istek optimizasyonu yapılabilir.  
----
----
-⚠️ Yasal Uyarı
-Bu proje bir yatırım tavsiyesi değildir. Finansal işlemlerinizden doğacak kazanç veya kayıplar tamamen sizin sorumluluğunuzdadır. Lütfen finansal kararlarınızı vermeden önce kendi araştırmanızı yapın ve uzman bir danışmana başvurun.
----
-
-## **Lisans**  
-Bu proje **MIT Lisansı** ile korunmaktadır.  
-
----
-
-**Katkıda bulunmak isterseniz pull request açmaktan çekinmeyin! 😊**  
+```txt
+# requirements.txt
+requests==2.32.3
+websocket-client==1.8.0
+python-dotenv==1.0.1
+pandas==2.2.3
+numpy==2.1.2
+lightgbm==4.5.0
+scikit-learn==1.5.2
